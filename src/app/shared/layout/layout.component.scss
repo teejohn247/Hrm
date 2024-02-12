@@ -1,0 +1,11 @@
+.page-wrap {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+
+    .main-page {
+        height: calc(100vh - var(--hdr-height));
+        flex: 1;
+    }
+}

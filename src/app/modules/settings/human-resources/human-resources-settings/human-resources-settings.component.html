@@ -1,0 +1,195 @@
+<div class="content-wrap">
+    <div class="row-section d-flex justify-content-between align-items-center">
+        <div class="page-header">Human Resources Settings</div>
+        <div class="main-actions d-flex justify-content-start align-items-center">
+            <div class="cta primary-bkg icon md"><i class="bi bi-hdd-fill"></i>Save Changes</div>
+            <!-- <div class="cta trans-bkg icon md ms-lg-3"><i class="bi bi-box-arrow-down"></i> Import</div>
+            <div class="cta trans-bkg icon md ms-lg-3"><i class="bi bi-box-arrow-up"></i> Export</div> -->
+        </div>
+    </div>
+
+    <div class="row-section mt-lg-4">
+        <div class="col-card card-ylg d-flex justify-content-between align-items-start">
+            <div class="row-card card-xxl d-flex justify-content-end">
+                <form class="settings-form card-xxl" [formGroup]="hrSettingsForm" novalidate autocomplete="off">
+
+                    <div class="form-wrap d-flex justify-content-between card-xxl">
+                        <div class="sec-hld d-flex align-items-end mb-lg-2" style="width: 48%">
+                            <div class="form-hld" style="flex: 1;">
+                                <label class="mb-lg-2">Create New Department</label>
+                                <input type="text" formControlName="department" class="form-control form-control-md" id="department" placeholder="Enter department name">    
+                            </div>
+                            <div (click)="createDepartment()" class="cta"><i class="bi bi-plus"></i></div>
+                        </div>
+
+                        <div class="sec-hld d-flex align-items-end mb-lg-2" style="width: 48%">
+                            <div class="form-hld" style="flex: 1;">
+                                <label class="mb-lg-2">Create New Designation</label>
+                                <input type="text" formControlName="designation" class="form-control form-control-md" id="designation" placeholder="Enter designation name">    
+                            </div>
+                            <div (click)="createDesignation()" class="cta"><i class="bi bi-plus"></i></div>
+                        </div>
+
+                        <!-- <div class="sec-hld d-flex align-items-end mt-lg-3 mb-lg-2" style="width: 48%">
+                            <div class="form-hld" style="flex: 1;">
+                                <label class="mb-lg-2">Create New Company Role</label>
+                                <input type="text" formControlName="companyRole" class="form-control form-control-md" id="companyRole" placeholder="Enter company role">    
+                            </div>
+                            <div class="cta"><i class="bi bi-plus"></i></div>
+                        </div> -->
+
+                        <div class="sec-hld d-flex align-items-end mt-lg-3 mb-lg-2" style="width: 48%">
+                            <div class="form-hld" style="flex: 1;">
+                                <label class="mb-lg-2">Create New Leave Type</label>
+                                <input type="text" formControlName="leaveType" class="form-control form-control-md" id="leaveType" placeholder="Enter leave type">    
+                            </div>
+                            <div (click)="createLeaveType()" class="cta"><i class="bi bi-plus"></i></div>
+                        </div>
+
+                        <div class="sec-hld d-flex align-items-end mt-lg-3 mb-lg-2" style="width: 48%">
+                            <div class="form-hld" style="flex: 1;">
+                                <label class="mb-lg-2">Create New Public Holiday</label>
+                                <input type="text" formControlName="holidayName" class="form-control form-control-md" id="holidayName" placeholder="Enter public holiday name">    
+                            </div>
+                            <div (click)="createPublicHoliday()" class="cta"><i class="bi bi-plus"></i></div>
+                        </div>
+
+                        <div class="sec-hld d-flex align-items-end mt-lg-3 mb-lg-2" style="width: 48%">
+                            <div class="form-hld" style="flex: 1;">
+                                <label class="mb-lg-2">Create New Expense Type</label>
+                                <input type="text" formControlName="expenseType" class="form-control form-control-md" id="expenseType" placeholder="Enter expense type">    
+                            </div>
+                            <div (click)="createExpenseType()" class="cta"><i class="bi bi-plus"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="form-wrap d-flex justify-content-between card-xxl">
+                        <div class="sec-hld d-flex align-items-end mb-lg-2" style="width: 48%">
+                            <div class="form-hld" style="flex: 1;">
+                                <label class="mb-lg-2">Create New Payroll Credit</label>
+                                <input type="text" formControlName="payrollCredit" class="form-control form-control-md" id="payrollCredit" placeholder="Enter payroll credit name">    
+                            </div>
+                            <div (click)="createPayrollCredit()" class="cta"><i class="bi bi-plus"></i></div>
+                        </div>
+
+                        <div class="sec-hld d-flex align-items-end mb-lg-2" style="width: 48%">
+                            <div class="form-hld" style="flex: 1;">
+                                <label class="mb-lg-2">Create New Payroll Debit</label>
+                                <input type="text" formControlName="payrollDebit" class="form-control form-control-md" id="payrollDebit" placeholder="Enter payroll debit name">    
+                            </div>
+                            <div (click)="createPayrollDebit()" class="cta"><i class="bi bi-plus"></i></div>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="row-card card-xmmd ms-lg-4">
+                <div class="cont">
+                    <div class="card-title clr mb-lg-1">Company Entities</div>
+                    <mat-accordion>
+                        <mat-expansion-panel *ngFor="let item of accordionItems; let i = index" class="mat-elevation-z0">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{item.label}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="list-section">
+                                <div class="list-scroll">
+                                    <div *ngFor="let entity of item.list; let j = index" class="list-hld">
+                                        <div *ngIf="item.label == 'Departments' " class="name">{{entity.departmentName}}</div>
+                                        <!-- <div *ngIf="designationList.length > 0 && item.label == 'Company Roles' " class="name">{{entity.roleName}}</div> -->
+                                        <div *ngIf="item.label == 'Designations' " class="name">{{entity.designationName}}</div>
+                                        <div *ngIf="item.label == 'Leave Types' " class="name">{{entity.leaveName}} Leave</div>
+                                        <div *ngIf="item.label == 'Holidays' " class="name">{{entity.holidayName}} Leave</div>
+                                        <div *ngIf="item.label == 'Expense Types' " class="name">{{entity.expenseType}}</div>
+                                        <div *ngIf="item.label == 'Departments'" class="actions">
+                                            <i (click)="editDepartment(entity)" class="bi bi-pen-fill"></i>
+                                            <i (click)="deleteDept(entity)" class="bi bi-trash3-fill"></i>
+                                        </div>
+                                        <div *ngIf="item.label == 'Leave Types'" class="actions">
+                                            <i (click)="editLeaveType(entity)" class="bi bi-pen-fill"></i>
+                                            <i (click)="deleteLeaveType(entity)" class="bi bi-trash3-fill"></i>
+                                        </div>
+                                        <div *ngIf="item.label == 'Holidays'" class="actions">
+                                            <i (click)="editPublicHoliday(entity)" class="bi bi-pen-fill"></i>
+                                            <i (click)="deletePublicHoliday(entity)" class="bi bi-trash3-fill"></i>
+                                        </div>
+                                        <div *ngIf="item.label == 'Expense Types'" class="actions">
+                                            <i (click)="editExpenseType(entity)" class="bi bi-pen-fill"></i>
+                                            <i (click)="deleteExpenseType(entity)" class="bi bi-trash3-fill"></i>
+                                        </div>
+                                        <div *ngIf="item.label == 'Designations'" class="actions">
+                                            <i (click)="editDesignation(entity)" class="bi bi-pen-fill"></i>
+                                            <i (click)="deleteDesignation(entity)" class="bi bi-trash3-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                </div>
+
+                <div class="cont mt-lg-4">
+                    <div class="card-title clr mb-lg-1">Payroll Entities</div>
+                    <mat-accordion>
+                        <mat-expansion-panel *ngFor="let item of payrollAccordionItems; let i = index" class="mat-elevation-z0">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{item.label}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="list-section">
+                                <div class="list-scroll">
+                                    <div *ngFor="let entity of item.list; let j = index" class="list-hld">
+                                        <div class="name">{{entity.name}}</div>
+                                        <div *ngIf="item.label == 'Payroll Credits'" class="actions">
+                                            <i (click)="editPayrollCredit(entity)" class="bi bi-pen-fill"></i>
+                                            <i (click)="deletePayrollCredit(entity)" class="bi bi-trash3-fill"></i>
+                                        </div>
+                                        <div *ngIf="item.label == 'Payroll Debits'" class="actions">
+                                            <i (click)="editPayrollDebit(entity)" class="bi bi-pen-fill"></i>
+                                            <i (click)="deletePayrollDebit(entity)" class="bi bi-trash3-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                </div>
+
+                <!-- <div class="cont mt-lg-4">
+                    <div class="card-title clr mb-lg-2">Audit Trail</div>
+                    <div class="listed-items mt-lg-3">
+                        <div class="item">
+                            <div class="content">
+                                <div class="det">
+                                    <div class="major"><strong>Richard Jones</strong> created a new employee.</div>
+                                    <div class="minor">06 Jun, 2023 <span class="ms-lg-2">03:35:34 PM</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="item">
+                            <div class="content">
+                                <div class="det">
+                                    <div class="major"><strong>Kenneth Drakes</strong> approved a leave request.</div>
+                                    <div class="minor">08 Jun, 2023 <span class="ms-lg-2">12:05:14 AM</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="content">
+                                <div class="det">
+                                    <div class="major"><strong>Martyn Yeamen</strong> submitted a payroll.</div>
+                                    <div class="minor">10 Jun, 2023 <span class="ms-lg-2">15:10:20 PM</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>

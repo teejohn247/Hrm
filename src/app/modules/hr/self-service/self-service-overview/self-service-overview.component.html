@@ -1,0 +1,309 @@
+<div class="content-wrap">
+    <div class="row-section d-flex justify-content-between align-items-center">
+        <div class="page-header">Overview</div>
+        <div class="main-actions d-flex justify-content-start align-items-center">
+            <div class="cta primary-bkg icon md"><i class="bi bi-diagram-3-fill"></i>View Employee Ladder</div>
+        </div>
+    </div>
+
+    <div class="row-section mt-lg-3">
+        <div class="inner-row-hld d-flex align-items-start justify-content-between">
+            <div class="row-card card-xlg card-yxl">
+                <div class="col-card">
+                    <div class="cont lg">
+                        <div class="details">
+                            <div class="image bkg-standard" style="background-image: url('{{employeeDetails?.profilePic}}');"></div>
+                            <div class="info-wrap">
+                                <div class="info-title">
+                                    <span>{{employeeDetails?.fullName}}</span>
+                                    <span class="text-capitalize">{{employeeDetails?.companyRole}}</span>
+                                </div>
+                                <div class="info-list mt-lg-3">
+                                    <div class="info duo">
+                                        <span class="label">Department:</span>
+                                        <span class="text">{{employeeDetails?.department}}</span>
+                                    </div>
+                                    <div class="info duo">
+                                        <span class="label">Date Joined:</span>
+                                        <span class="text">{{strToDate(employeeDetails?.employmentStartDate, false)}}</span>
+                                    </div>
+                                    <div class="info duo">
+                                        <span class="label">Designation:</span>
+                                        <span class="text">{{employeeDetails?.designationName}}</span>
+                                    </div>
+                                    <div class="info duo">
+                                        <span class="label">Contract Type:</span>
+                                        <span class="text">{{employeeDetails?.employmentType}}</span>
+                                    </div>
+                                    <div class="info duo">
+                                        <span class="label">Email:</span>
+                                        <span class="text">{{employeeDetails?.email}}</span>
+                                    </div>
+                                    <div class="info duo">
+                                        <span class="label">Phone:</span>
+                                        <span class="text">{{employeeDetails?.phoneNumber}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div (click)="editEmployeeInfo()" class="edit cta quick primary-bkg xs">Edit Info</div>
+                            <!-- <div class="edit"><i class="bi bi-pencil-square"></i></div> -->
+                        </div>
+                        <div class="details">
+                            <div class="info-wrap">
+                                <div class="info-list space">
+                                    <div class="info tri">
+                                        <span class="label">Birthday:</span>
+                                        <span class="text">{{strToDate(employeeDetails?.dateOfBirth, false)}}</span>
+                                    </div>
+                                    
+                                    <!-- <div class="info">
+                                        <span class="label">Personal Email:</span>
+                                        <span class="text">{{employeeDetails?.personalEmail}}</span>
+                                    </div> -->
+
+                                    <div class="info duo">
+                                        <span class="label">Address:</span>
+                                        <span class="text">{{employeeDetails?.address}}</span>
+                                    </div>
+    
+                                    <div class="info tri">
+                                        <span class="label">City:</span>
+                                        <span class="text">{{employeeDetails?.city}}</span>
+                                    </div>
+    
+                                    <div class="info tri">
+                                        <span class="label">Country:</span>
+                                        <span class="text">{{employeeDetails?.country}}</span>
+                                    </div>
+
+                                    <div class="info tri">
+                                        <span class="label">Nationality:</span>
+                                        <span class="text">{{employeeDetails?.nationality}}</span>
+                                    </div>
+    
+                                    <div class="info tri">
+                                        <span class="label">Gender:</span>
+                                        <span class="text">{{employeeDetails?.gender}}</span>
+                                    </div>
+    
+                                    <div class="info tri">
+                                        <span class="label">Next of Kin:</span>
+                                        <span class="text">{{employeeDetails?.nextOfKinFullName}}</span>
+                                    </div>
+
+                                    <div class="info">
+                                        <span class="label">Next of Kin Phone:</span>
+                                        <span class="text">{{employeeDetails?.nextOfKinPhoneNumber}}</span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-card mt-lg-3 d-flex justify-content-between">
+                    <div class="cont card-xmmd">
+                        <div class="card-title">Payment Information</div>
+                        <div class="select-period mt-lg-2">
+                            <mat-form-field color="accent" style="width: 100%;" appearance="outline">
+                                <mat-label>Payment Detail</mat-label>
+                                <mat-select
+                                    class="selectField"
+                                    disableOptionCentering
+                                    panelClass="matDropdown"
+                                >
+                                    <mat-option>Payslip</mat-option>
+                                    <mat-option>Tax Deductions</mat-option>
+                                    <mat-option>Bonuses</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div class="form-row d-flex justify-content-between align-items-center">
+                                <mat-form-field color="accent" style="width: 70%;" appearance="outline">
+                                    <mat-label>Payment Period</mat-label>
+                                    <mat-select
+                                        class="selectField"
+                                        disableOptionCentering
+                                        panelClass="matDropdown"
+                                    >
+                                        <mat-option>Jan 1, 2023 - Jan 31, 2023</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div class="cta primary-bkg sm">Submit</div>
+                            </div>
+                        </div>
+                        <div class="listed-items mt-lg-4">
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major bd">Mar 1, 2023 - Mar 31, 2023</div>
+                                    </div>
+                                    <div class="det">
+                                        <div class="cta primary-light-bkg xs">Download</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major bd">Feb 16, 2023 - Feb 28, 2023</div>
+                                    </div>
+                                    <div class="det">
+                                        <div class="cta primary-light-bkg xs">Download</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="cont card-xmmd">
+                        <div class="cta quick primary-bkg xs">Apply for leave</div>
+                        <!-- <div class="card-title">Leave Requests</div> -->
+                        <div class="donut-chart">
+                            <!-- <canvas #doughnutCanvas></canvas> -->
+                            <div class="chart-title">
+                                <span>{{totalLeaveDays}}</span>
+                                <span>Leave Balance <br> (Days)</span>
+                            </div>
+                            <highcharts-chart
+                                [Highcharts]="Highcharts"
+                                [options]="chartOptions"
+                                style="width: auto; max-width: 100%; height: 146px; display: flex; align-items: center; justify-content: center;"
+                            >
+                            </highcharts-chart>
+                        </div>
+        
+                        <div class="leave-wrap mt-lg-3">
+
+                            <div *ngFor="let item of leaveBreakdown" class="leave-hld" [ngStyle]="{'border-color': item.colorDark}">
+                                <div class="icon"><i class="{{item.icon}}"></i></div>
+                                <div class="title">{{item.name}}</div>
+                                <div class="count"><span>{{item.daysUsed}}</span>/{{item.totalDays}} days</div>
+                            </div>
+                            
+                            <!-- <div class="leave-hld annual">
+                                <div class="icon"><i class="bi bi-calendar-check"></i></div>
+                                <div class="title">Annual</div>
+                                <div class="count"><span>9</span>/21 days</div>
+                            </div>
+                            <div class="leave-hld paid">
+                                <div class="icon"><i class="bi bi-cash"></i></div>
+                                <div class="title">Paid Leave</div>
+                                <div class="count"><span>5</span>/14 days</div>
+                            </div>
+                            <div class="leave-hld unpaid">
+                                <div class="icon"><i class="bi bi-exclamation-diamond"></i></div>
+                                <div class="title">Unpaid </div>
+                                <div class="count"><span>1</span>/2 days</div>
+                            </div>
+                            <div class="leave-hld sick">
+                                <div class="icon"><i class="bi bi-bandaid"></i></div>
+                                <div class="title">Sick Leave</div>
+                                <div class="count"><span>2</span>/5 days</div>
+                            </div> -->
+                            
+                        </div>
+                        
+                    </div>
+                </div> 
+            </div>
+
+            <div class="row-card card-xsm">
+
+                <div class="cont">
+                    <div class="card-title">Reporting Manager</div>
+                    <div class="listed-items mt-lg-3">
+                        <div class="item">
+                            <div class="image bkg-standard" style="background-image: url('../../../../../assets/images/illustrations/staff3.jpg');"></div>
+                            <div class="content">
+                                <div class="det">
+                                    <div class="major">Tony Lorenzo</div>
+                                    <div class="minor">Marketing Manager</div>
+                                </div>
+                                <div class="det">
+                                    <!-- <div class="status sm approved">Approved</div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stacked-items mt-lg-3">
+                        <div class="title">Other Team Members</div>
+                        <div class="stack">
+                            <span style="background-image: url('../../../../../assets/images/illustrations/staff1.jpg');"></span>
+                            <span style="background-image: url('../../../../../assets/images/illustrations/staff3.jpg');"></span>
+                            <span style="background-image: url('../../../../../assets/images/illustrations/staff2.jpg');"></span>
+                            <span style="background-image: url('../../../../../assets/images/illustrations/profile-img.jpg');"></span>
+                            <span style="background-image: url('../../../../../assets/images/illustrations/staff1.jpg');"></span>
+                            <span style="background-image: url('../../../../../assets/images/illustrations/staff3.jpg');"></span>
+                            <span>+9</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cont mt-lg-3 duo card-ymd">
+                    <div class="card-title">Recent Approval Requests</div>
+                    <div class="listed-items mt-lg-3">
+                        <div class="item">
+                            <div class="icon"><i class="bi bi-rocket-takeoff"></i></div>
+                            <div class="content">
+                                <div class="det">
+                                    <div class="major">Leave Request</div>
+                                    <div class="minor">Ibrahim Babatunde</div>
+                                </div>
+                                <div class="det">
+                                    <div class="status sm approved">Approved</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="item">
+                            <div class="icon"><i class="bi bi-coin"></i></div>
+                            <div class="content">
+                                <div class="det">
+                                    <div class="major">Reimbursement</div>
+                                    <div class="minor">Matthew Reynolds</div>
+                                </div>
+                                <div class="det">
+                                    <div class="status sm pending">Pending</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cont duo card-ymd">
+                    <div class="card-title">Notifications</div>
+                    <div class="listed-items mt-lg-3">
+                        <div class="item">
+                            <div class="icon"><i class="bi bi-bell"></i></div>
+                            <div class="content">
+                                <div class="det">
+                                    <div class="major">Weekly update meeting has been postponed till next week</div>
+                                    <div class="minor">12 mins ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="item">
+                            <div class="icon"><i class="bi bi-chat-right-text"></i></div>
+                            <div class="content">
+                                <div class="det">
+                                    <div class="major">Kenneth Drakes just applied for a leave</div>
+                                    <div class="action">
+                                        <span class="status sm approved">Approve</span>
+                                        <span class="status sm rejected">Decline</span>
+                                    </div>
+                                    <div class="minor">24 mins ago</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+</div>
+
+

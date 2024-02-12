@@ -1,0 +1,40 @@
+.create-details {
+    p {
+        font-size: 0.75rem;
+        letter-spacing: 0.03rem;
+        color: var(--white-tint);
+        margin-bottom: 0;
+    }
+}
+
+.cumulative {
+    font-size: 0.8rem;
+    letter-spacing: 0.03rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--primary-light);
+    color: var(--white-tint-md);
+    margin-bottom: 1.5rem;
+
+    .pay-hld {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+
+        .label {
+
+        }
+
+        .amount {
+            color: white;
+
+            &.deduction {
+                color: var(--warning);
+            }
+
+            &.earning {
+                color: var(--approved);
+            }
+        }
+    }
+}

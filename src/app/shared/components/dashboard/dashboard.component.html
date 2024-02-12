@@ -1,0 +1,190 @@
+<div class="content-wrap">
+    <div class="row-section d-flex justify-content-between align-items-center">
+        <div class="page-header">Dashboard</div>
+    </div>
+
+    <div class="row-section mt-lg-4">
+        <div class="inner-row-hld d-flex justify-content-between">
+            
+            <div class="row-card card-xlg card-yxl">
+                <div class="cont" style="padding: 0; height: 312px; overflow: hidden;">
+                    <div class="media-wrap">
+                        <div class="overlay"></div>
+                        <div 
+                            class="slide"
+                            *ngFor="let item of carouselItems; let i = index"
+                            [ngClass]="{'image-active' : selectedIndex === i}" 
+                        >
+                            <img class="fade" [src]="item.image" [alt]="item.label">
+                            <div class="caption">{{item.caption}}</div>
+                        </div>
+                        
+                        <div class="dots">
+                            <span 
+                                *ngFor="let item of carouselItems; let i = index" 
+                                [ngClass]="{'active' : selectedIndex === i}"
+                                (click)="selectSlide(i)"
+                            ></span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card card-xsm card-yxl">
+                <div class="col-card card-yxl d-flex flex-column justify-content-between align-items-center">
+                    <div *ngFor="let item of dashboardSummary" class="cont status-card d-flex flex-column justify-content-center card-xxl card-ymmd px-lg-4">
+                        <div class="card-det d-flex align-items-center">
+                            <div class="icon lg" [ngStyle]="{'color': item.colorDark}"><i class="{{item.symbol}}"></i></div>
+                            <div class="card-title thin">{{item.name}}</div>
+                            <div class="fraction"><span class="md">{{item.value}}</span></div>
+                        </div>
+                    </div>
+                    <!-- <div *ngFor="let item of dashboardSummary" class="cont status-card d-flex flex-column justify-content-between card-xxl card-ymmd px-lg-4">
+                        <div class="card-det d-flex align-items-center">
+                            <div class="symbol" [ngStyle]="{'color': item.colorDark}"><i class="{{item.symbol}}"></i></div>
+                            <div class="card-title reg">{{item.name}}</div>
+                        </div>
+                        <div class="card-det d-flex justify-content-between align-items mt-lg-1">
+                            <span class="value">{{item.value}}</span>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-section mt-lg-3">
+        <div class="inner-row-hld d-flex align-items-start justify-content-between">
+            <div class="col-card w-100 card-yxl d-flex justify-content-between align-items-start">
+                <div class="row-card d-flex justify-content-between card-xmlg card-yxl">
+                    <div class="cont card-xmmd d-flex flex-column justify-content-between">
+                        <div class="card-title">Payroll Information</div>
+                        <div class="payroll-info mb-lg-2">
+                            <div class="info">{{payrollPeriods['data'][0]?.payrollPeriodName}}</div>
+                            <div class="info">Gross Pay: <span>£ {{payrollPeriods['data'][0]?.totalEarnings}}</span></div>
+                            <div class="info">Deductions: <span>£ {{payrollPeriods['data'][0]?.deductions}}</span></div>
+                            <div class="info">Net Pay: <span>£ {{payrollPeriods['data'][0]?.netEarnings}}</span></div>
+                        </div>
+                        <highcharts-chart
+                                [Highcharts]="AreaHighcharts"
+                                [options]="areaChartOptions"
+                                style="width: 100%; max-width: 100%; height: 180px; display: block;"
+                            >
+                            </highcharts-chart>
+                    </div>
+
+                    <div class="cont card-xmmd bkg-primary-light">
+                        <div class="appraisal">
+                            <div class="card-title">Appraisal Reviews</div>
+                            <div class="listed-items mt-lg-3">
+                                <div *ngFor="let employee of employeeList['data'] | slice:0:3; let i = index" class="item">
+                                    <div class="content">
+                                        <div class="det d-flex align-items-end gap-1">
+                                            <div class="image rd bkg-standard" style="background-image: url('{{employee.profilePic}}');"></div>
+                                            <div class="info">
+                                                <div class="major bd">{{employee.fullName}}</div>
+                                                <div class="minor">{{employee.companyRole}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="det right">
+                                            <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(4)"><i class="bi bi-star-fill"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btm-info">
+                                <div class="stacked-items mt-lg-3">
+                                    <div class="title">Employee Submissions</div>
+                                    <div class="stack mt-lg-2">
+                                        <span style="background-image: url('../../../../../assets/images/illustrations/staff1.jpg');"></span>
+                                        <span style="background-image: url('../../../../../assets/images/illustrations/staff3.jpg');"></span>
+                                        <span style="background-image: url('../../../../../assets/images/illustrations/staff2.jpg');"></span>
+                                        <span style="background-image: url('../../../../../assets/images/illustrations/profile-img.jpg');"></span>
+                                        <span style="background-image: url('../../../../../assets/images/illustrations/staff1.jpg');"></span>
+                                        <span style="background-image: url('../../../../../assets/images/illustrations/staff3.jpg');"></span>
+                                        <span>+9</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-card card-xmd card-yxl">
+                    <div class="cont">
+                        <div class="card-title clr">Upcoming Interviews</div>
+                        <div class="listed-items mt-lg-3">
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major bd">Senior Frontend Engineer</div>
+                                        <div class="minor">Ibrahim Babatunde</div>
+                                    </div>
+                                    <div class="det right">
+                                        <div class="major">Apr 20</div>
+                                        <div class="minor sm">12:30pm - 12:45pm</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major bd">Marketing Manager</div>
+                                        <div class="minor">Remi Olubode</div>
+                                    </div>
+                                    <div class="det right">
+                                        <div class="major">May 21</div>
+                                        <div class="minor sm">1:10pm - 2:45pm</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major bd">Finance Analyst</div>
+                                        <div class="minor">Matt Greg</div>
+                                    </div>
+                                    <div class="det right">
+                                        <div class="major">May 26</div>
+                                        <div class="minor sm">4:10pm - 4:25pm</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major bd">Technology Consultant</div>
+                                        <div class="minor">Rita Mreace</div>
+                                    </div>
+                                    <div class="det right">
+                                        <div class="major">May 30</div>
+                                        <div class="minor sm">9:30am - 10:45am</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major bd">HR Consultant</div>
+                                        <div class="minor">Spence Holderyne</div>
+                                    </div>
+                                    <div class="det right">
+                                        <div class="major">Jun 4</div>
+                                        <div class="minor sm">10:30am - 10:45am</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+</div>

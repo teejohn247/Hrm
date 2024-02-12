@@ -1,0 +1,201 @@
+<div class="login-wrap">
+    <!-- <div class="col-wrap">
+        <div class="media-wrap">
+            <div class="overlay"></div>
+            <div 
+                class="slide"
+                *ngFor="let item of carouselItems; let i = index"
+                [ngClass]="{'image-active' : selectedIndex === i}" 
+            >
+                <img class="fade" [src]="item.image" [alt]="item.label">
+                <div class="caption">{{item.caption}}</div>
+            </div>
+            
+            <div class="dots">
+                <span 
+                    *ngFor="let item of carouselItems; let i = index" 
+                    [ngClass]="{'active' : selectedIndex === i}"
+                    (click)="selectSlide(i)"
+                ></span>
+            </div>
+            
+        </div>
+    </div> -->
+    <div class="col-wrap" style="background-image: url('../../../../assets/images/illustrations/erp-bkg.jpeg');">
+        <div class="overlay"></div>
+        <div class="login-container">
+            <div class="logo">
+                <img src="https://silo-inc.com/wp-content/uploads/2023/01/White-logo-no-background-Recovered.svg" alt="silo-logo">
+            </div>
+
+            <div *ngIf="!loggingIn" class="intro">
+                <!-- <div class="heading">
+                    <span>Welcome to Silo ERP <img src="https://silo-inc.com/wp-content/themes/wp-silo/dist/img/waving_hand.gif" alt=""></span>
+                </div> -->
+                <!-- <div class="preamble">Please input your details to gain access.</div> -->
+                <div *ngIf="!forgotPass" class="heading">Set your password</div>
+                <div *ngIf="forgotPass" class="heading">Enter your verified email</div>
+            </div>
+
+            <form *ngIf="loggingIn" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
+                <div class="form-hld">
+
+                    <div class="input-hld mb-4">
+                        <input 
+                            type="email" 
+                            formControlName="email" 
+                            autofocus 
+                            class="form-control form-control-lg" 
+                            id="email" 
+                            placeholder="Enter your email"
+                            [ngClass]="{ 'is-valid': (f.email.dirty || submitted) && !f.email.errors, 'is-invalid': (f.email.dirty || submitted) && f.email.errors }"
+                        >
+                        <div class="invalid-feedback">
+                            <span class="text-danger" *ngIf="f.email.errors?.required">Email address is required</span>
+                            <span class="text-danger" *ngIf="f.email.errors?.email">Email address is not valid</span>
+                        </div>
+                    </div>
+
+                    <div class="input-hld">
+                        <input 
+                            [type]="showPassword ? 'text' : 'password'" 
+                            formControlName="password"
+                            class="form-control form-control-lg" 
+                            id="password" 
+                            placeholder="Enter your password"
+                            [ngClass]="{ 'is-valid': (f.password.dirty || submitted) && passwordValid, 'is-invalid': (f.password.dirty || submitted) && !passwordValid }" 
+                        />
+                        <div class="invalid-feedback">
+                            <!-- required -->
+                            <span class="text-danger" *ngIf="(f.password.dirty || submitted) && !requiredValid">Password is required</span>
+                            <!-- password validation rules -->
+                            <div id="validation-rules" class="mt-1" *ngIf="requiredValid">
+                                <span [ngClass]="{ 'text-success': minLengthValid, 'text-danger': !minLengthValid }">Min-length 8,</span>
+                                <span [ngClass]="{ 'text-success': requiresDigitValid, 'text-danger': !requiresDigitValid }"> Digit,</span>
+                                <span [ngClass]="{ 'text-success': requiresUppercaseValid, 'text-danger': !requiresUppercaseValid }"> Uppercase,</span>
+                                <span [ngClass]="{ 'text-success': requiresLowercaseValid, 'text-danger': !requiresLowercaseValid }"> Lowercase,</span>
+                                <span [ngClass]="{ 'text-success': requiresSpecialCharsValid, 'text-danger': !requiresSpecialCharsValid }"> Special character</span>
+                            </div>
+                        </div>
+                        
+                        <span class="eyePass">
+                            <i alt="show" class="bi bi-eye-fill" 
+                            (click)="showPassword = !showPassword"
+                            *ngIf="showPassword"></i>
+                            <i alt="hide" class="bi bi-eye-slash-fill" 
+                            (click)="showPassword = !showPassword"
+                            *ngIf="!showPassword"></i>
+                        </span>
+                    </div>
+    
+                    <p (click)="routeToforgotPassword()" class="forgot"><span>Forgot Password?</span></p>                
+    
+                    <div class="btn-hld">
+                        <button type="submit" class="cta primary-bkg icon lg"><i class="bi bi-person-bounding-box"></i>{{existingUser ? 'Login' : 'Create Account'}}</button>
+                        <p *ngIf="existingUser" class="accountcheck mt-lg-2">Don't have an account? <span (click)="existingUser = !existingUser">Create Account</span></p>
+                        <p *ngIf="!existingUser" class="accountcheck mt-lg-2">Have an account? <span (click)="existingUser = !existingUser">Login</span></p>
+                    </div>
+    
+                    <div class="disclaimer"><i class="bi bi-check-circle-fill"></i> By creating an account and signing in, it means you agree to our <a href="#">Terms and Condition</a> and <a href="#">Privacy Policy</a></div>
+                    
+                </div>
+            </form>
+
+            <form *ngIf="!loggingIn" [formGroup]="setPasswordForm" class="w-100" novalidate autocomplete="off">
+                <div class="form-hld">
+
+                    <div class="input-hld mb-4">
+                        <input 
+                            type="email" 
+                            formControlName="email" 
+                            autofocus 
+                            class="form-control form-control-lg" 
+                            id="email"
+                            readonly = "{{setPass}}" 
+                            placeholder="Enter your email"
+                            [ngClass]="{ 'is-valid': (fp.email.dirty || submitted) && !fp.email.errors, 'is-invalid': (fp.email.dirty || submitted) && fp.email.errors }"
+                        >
+                        <div class="invalid-feedback">
+                            <span class="text-danger" *ngIf="fp.email.errors?.required">Email address is required</span>
+                            <span class="text-danger" *ngIf="fp.email.errors?.email">Email address is not valid</span>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!forgotPass" class="input-hld mb-4">
+                        <input 
+                            [type]="showPassword ? 'text' : 'password'" 
+                            formControlName="password"
+                            class="form-control form-control-lg" 
+                            id="password" 
+                            placeholder="Enter your password"
+                            [ngClass]="{ 'is-valid': (fp.password.dirty || submitted) && passwordValid, 'is-invalid': (f.password.dirty || submitted) && !passwordValid }" 
+                        />
+                        <div class="invalid-feedback">
+                            <!-- required -->
+                            <span class="text-danger" *ngIf="(f.password.dirty || submitted) && !requiredValid">Password is required</span>
+                            <!-- password validation rules -->
+                            <div id="validation-rules" class="mt-1" *ngIf="requiredValid">
+                                <span [ngClass]="{ 'text-success': minLengthValid, 'text-danger': !minLengthValid }">Min-length 8,</span>
+                                <span [ngClass]="{ 'text-success': requiresDigitValid, 'text-danger': !requiresDigitValid }"> Digit,</span>
+                                <span [ngClass]="{ 'text-success': requiresUppercaseValid, 'text-danger': !requiresUppercaseValid }"> Uppercase,</span>
+                                <span [ngClass]="{ 'text-success': requiresLowercaseValid, 'text-danger': !requiresLowercaseValid }"> Lowercase,</span>
+                                <span [ngClass]="{ 'text-success': requiresSpecialCharsValid, 'text-danger': !requiresSpecialCharsValid }"> Special character</span>
+                            </div>
+                        </div>
+                        
+                        <span class="eyePass">
+                            <i alt="show" class="bi bi-eye-fill" 
+                            (click)="showPassword = !showPassword"
+                            *ngIf="showPassword"></i>
+                            <i alt="hide" class="bi bi-eye-slash-fill" 
+                            (click)="showPassword = !showPassword"
+                            *ngIf="!showPassword"></i>
+                        </span>
+                    </div>
+    
+                    <div *ngIf="!forgotPass" class="input-hld mb-2">
+                        <input 
+                            [type]="showPassword ? 'text' : 'password'" 
+                            formControlName="confirmPassword"
+                            class="form-control form-control-lg" 
+                            id="confirmPassword" 
+                            placeholder="Confirm your password"
+                            [ngClass]="{ 'is-valid': (fp.confirmPassword.dirty || submitted) && requiredConfirmationValid, 'is-invalid': (fp.confirmPassword.dirty || submitted) && !matchValid }" 
+                        />
+                        <div class="invalid-feedback">
+                            <!-- required -->
+                            <span class="text-danger" *ngIf="(fp.confirmPassword.dirty || submitted) && !requiredConfirmationValid">Password is required</span>
+                            <span class="text-danger" *ngIf="(fp.confirmPassword.dirty || submitted) && !matchValid">Passwords do not match</span>
+                            <!-- password validation rules -->
+                            <div id="validation-rules" class="mt-1" *ngIf="requiredValid">
+                                <span [ngClass]="{ 'text-success': matchValid, 'text-danger': !matchValid }">Passwords match,</span>
+                            </div>
+                        </div>
+                        
+                        <span class="eyePass">
+                            <i alt="show" class="bi bi-eye-fill" 
+                            (click)="showPassword = !showPassword"
+                            *ngIf="showPassword"></i>
+                            <i alt="hide" class="bi bi-eye-slash-fill" 
+                            (click)="showPassword = !showPassword"
+                            *ngIf="!showPassword"></i>
+                        </span>
+                    </div>               
+    
+                    <div *ngIf="!forgotPass" class="btn-hld">
+                        <button (click)="setPassword()" class="cta primary-bkg icon lg"><i class="bi bi-person-bounding-box"></i>Save & Login</button>
+                    </div>
+
+                    <div *ngIf="forgotPass" class="btn-hld">
+                        <button (click)="forgotPassword()" class="cta primary-bkg icon lg"><i class="bi bi-person-bounding-box"></i>Submit Email</button>
+                    </div>
+    
+                    <!-- <div class="disclaimer"><i class="bi bi-check-circle-fill"></i> By creating an account and signing in, it means you agree to our <a href="#">Terms and Condition</a> and <a href="#">Privacy Policy</a></div> -->
+                    
+                </div>
+            </form>
+            
+        </div>
+        
+    </div>
+</div>

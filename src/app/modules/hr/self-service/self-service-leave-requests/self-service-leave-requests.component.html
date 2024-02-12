@@ -1,0 +1,178 @@
+<div class="content-wrap with-tabs">
+    <div class="row-section d-flex justify-content-between align-items-center">
+        <div class="page-header">Leave Requests</div>
+        <div class="main-actions d-flex justify-content-start align-items-center">
+        </div>
+    </div>
+
+    <div class="row-section mt-lg-3">
+        <div class="inner-row-hld d-flex align-items-start justify-content-between">
+            <div class="col-card card-yxl d-flex justify-content-between align-items-start">
+                <div class="row-card d-flex justify-content-between card-xmlg card-yxl">
+                    <div class="cont card-xmmd">
+                        <div class="donut-chart">
+                            <!-- <canvas #doughnutCanvas></canvas> -->
+                            <div class="chart-title">
+                                <span>{{totalLeaveDays}}</span>
+                                <span>Leave Balance <br> (Days)</span>
+                            </div>
+                            <highcharts-chart
+                                [Highcharts]="Highcharts"
+                                [options]="chartOptions"
+                                style="width: auto; max-width: 100%; height: 300px; display: flex; align-items: center; justify-content: center; background: transparent;"
+                            >
+                            </highcharts-chart>
+                        </div>
+                    </div>
+
+                    <div class="inner-col scrollable card-xmmd card-yxl d-flex flex-column justify-content-between">
+                        <div *ngFor="let item of leaveBreakdown" class="cont status-card d-flex flex-column justify-content-between card-ymmd">
+                            <div class="card-det d-flex align-items-center">
+                                <div class="icon" [ngStyle]="{'color': item.colorDark, 'background': item.colorLight}"><i class="{{item.icon}}"></i></div>
+                                <div class="card-title">{{item.name}}</div>
+                                <div class="fraction"><span>{{item.daysUsed}}</span>/{{item.totalDays}}</div>
+                            </div>
+                            <div class="card-det">
+                                <span class="bar-percent">Days Used</span>
+                                <div class="progress-bar">
+                                    <div 
+                                        class="bar-fill" 
+                                        [ngStyle]="{'width.%': item.daysUsed/item.totalDays * 100, 'background': item.colorDark}" 
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-card card-xmd card-yxl">
+                    <div class="cont bkg-dark">
+                        <div class="card-title">Leave Application</div>
+                        <form [formGroup]="leaveForm" class="form-container mt-lg-3 d-flex justify-content-between" style="font-size: 0.75rem; color: white; flex-wrap: wrap;">
+
+                            <ng-container class="d-flex justify-content-between" *ngFor="let field of leaveRequestFields">
+                                <ng-container [ngSwitch]="field.controlType">
+        
+                                    <mat-form-field *ngSwitchCase="'textarea'" color="accent" class="mb-lg-1" [style.width]="field.controlWidth" appearance="outline">
+                                        <mat-label>{{field.controlLabel}}</mat-label>
+                                        <textarea type="field.controlType" rows="3" matInput [formControlName]="field.controlName"></textarea>
+                                        <mat-error *ngIf="leaveForm.get(field.controlName)?.hasError('email')">Please enter a valid email address</mat-error>
+                                        <mat-error *ngIf="leaveForm.get(field.controlName)?.hasError('required')">{{field.controlLabel}} is required</mat-error>
+                                        
+                                    </mat-form-field>
+            
+                                    <mat-form-field *ngSwitchCase="'select'" color="accent" class="mb-lg-0" [style.width]="field.controlWidth" appearance="outline">
+                                        <mat-label>{{field.controlLabel}}</mat-label>
+                                        <mat-select
+                                            class="selectField"
+                                            disableOptionCentering
+                                            panelClass="matDropdown"
+                                            [formControlName]="field.controlName"
+                                        >
+                                            <mat-option *ngFor="let option of field.selectOptions | keyvalue" [value]="option.key">{{option.value}}</mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="leaveForm.get(field.controlName)?.hasError('required')">{{field.controlLabel}} is required</mat-error>
+                                    </mat-form-field>
+        
+                                    <mat-form-field *ngSwitchCase="'date'" color="accent" class="mb-lg-1" [style.width]="field.controlWidth" appearance="outline">
+                                        <mat-label>{{field.controlLabel}}</mat-label>
+                                        <input matInput [matDatepicker]="picker" readonly [formControlName]="field.controlName">
+                                        <mat-hint>DD/MM/YYYY</mat-hint>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker color="accent" disabled="false"></mat-datepicker>
+                                        <mat-error *ngIf="leaveForm.get(field.controlName)?.hasError('required')">{{field.controlLabel}} is required</mat-error>
+                                        <mat-error *ngIf="leaveForm.get(field.controlName)?.hasError('date')">{{field.controlLabel}} is invalid</mat-error>
+                                    </mat-form-field>
+        
+                                </ng-container>
+                            </ng-container>
+        
+                            <div class="btn-hld d-flex justify-content-end" style="width: 100%">
+                                <div (click)="createLeaveRequest()" class="cta primary-bkg sm text-uppercase" style="min-width: 30%" type="submit">Submit</div>
+                            </div>
+        
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="row-section mt-lg-3">
+        <div class="table-wrap">
+
+            <div class="inner-row hdr d-flex justify-content-start align-items-center">
+                <div class="card-title">Leave History</div>
+            </div>
+
+            <div class="inner-row">
+                <table 
+                    mat-table
+                    [dataSource]="dataSource"
+                    class="dataTable mat-elevation-z0"
+                    matSort
+                >
+
+                    <!-- Table Columns -->
+                    <ng-container *ngFor="let column of tableColumns" [matColumnDef]="column.label">
+
+                        <ng-container *ngIf="column.key == 'leaveTypeName'">
+                            <th [style.width]="column.columnWidth" mat-header-cell *matHeaderCellDef>{{column.label}}</th>
+                            <td mat-cell *matCellDef="let row">
+                                <span class="icon"><i class="bi bi-calendar2-week"></i> {{ row[column.key] }}</span>
+                                <!-- <span class="icon" *ngIf="row[column.key] == 'Paid' || row[column.key] == 'Annual-Leave'"><i class="bi bi-cash"></i> {{ row[column.key] }}</span>
+                                <span class="icon" *ngIf="row[column.key] == 'Unpaid'"><i class="bi bi-exclamation-diamond"></i> {{ row[column.key] }}</span>
+                                <span class="icon" *ngIf="row[column.key] == 'Sick'"><i class="bi bi-bandaid"></i> {{ row[column.key] }}</span> -->
+                            </td>
+                        </ng-container>
+
+                        <ng-container *ngIf="column.key == 'status'">
+                            <th [style.width]="column.columnWidth" mat-header-cell *matHeaderCellDef>{{column.label}}</th>
+                            <td mat-cell *matCellDef="let row">
+                                <span class="status approved" *ngIf="row[column.key] == 'Approved'">{{ row[column.key] }}</span>
+                                <span class="status pending" *ngIf="row['column.key'] == 'Pending'">{{ row[column.key] }}</span>
+                                <span class="status rejected" *ngIf="row[column.key] == 'Declined'">{{ row[column.key] }}</span>
+                            </td>
+
+                        </ng-container>
+
+                        <ng-container *ngIf="column.key == 'actions'">
+                            <th style="width:5%" mat-header-cell *matHeaderCellDef>
+                            </th>
+                            <td style="width:1%; white-space: nowrap;" mat-cell *matCellDef="let row">
+                                <span (click)="editLeaveRequest(row)" class="table-icon edit"><i class="bi bi-pen-fill"></i></span>
+                                <span (click)="deleteLeaveRequest(row)" *ngIf="row['approved'] == false" class="table-icon delete ms-lg-3"><i class="bi bi-trash3-fill"></i></span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container *ngIf="column.key == 'leaveStartDate' || column.key == 'leaveEndDate' || column.key == 'requestDate'">
+                            <th [style.width]="column.columnWidth" mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
+                            <td mat-cell *matCellDef="let row">{{ strToDate(row[column.key], column.key) }}</td>
+                        </ng-container>
+
+                        <ng-container>
+                            <th [style.width]="column.columnWidth" mat-header-cell *matHeaderCellDef>{{ column.key == 'image' || column.key == 'actions' ? "" : column.label }}</th>
+                            <td mat-cell *matCellDef="let row">{{ row[column.key] }}</td>
+                        </ng-container>
+                        
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                            <div class="empty-data">
+                                <img src="../../../../assets/images/illustrations/empty1.png" alt=""/>
+                                <div class="text">No leave records exist.</div>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </div>
+        </div>
+        
+    </div>
+</div>

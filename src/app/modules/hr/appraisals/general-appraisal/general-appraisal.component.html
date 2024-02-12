@@ -1,0 +1,238 @@
+<div class="content-wrap">
+    <div class="row-section d-flex justify-content-between align-items-center">
+        <div class="page-header">Performance Management</div>
+        <div class="main-actions d-flex justify-content-start align-items-center">
+            <!-- <div class="cta trans-bkg filter-trigger"><i class="bi bi-filter"></i> Filter</div> -->
+            <div class="custom-dropdown" [matMenuTriggerFor]="periodMenu"> Select Appraisal Period <i class="bi bi-chevron-down"></i> </div>
+            <mat-menu #periodMenu="matMenu">
+                <div *ngFor="let item of appraisalPeriods['data']" (click)="setAppraisalData(item)" class="menu-item d-flex justify-content-between" mat-menu-item>
+                    {{item.appraisalPeriodName}}
+                    <span class="actions">
+                        <i (click)="deleteAppraisalPeriod(item)" class="bi bi-trash3-fill delete"></i>
+                    </span>
+                </div>
+            </mat-menu>
+            <div (click)="addAppraisalPeriod()" class="cta primary-bkg icon md ms-lg-3"><i class="bi bi-calendar4-week"></i>New Appraisal Period</div>
+            <div (click)="openEditModal()" class="cta trans-bkg md rd edit ms-lg-3"><i class="bi bi-pen-fill"></i></div>
+            <div (click)="deleteAppraisalPeriod()" class="cta trans-bkg md rd delete ms-lg-3"><i class="bi bi-trash3-fill"></i></div>
+        </div>
+    </div>
+
+    <!-- <div class="legend d-flex justify-content-start align-items-center mt-lg-4">
+        <span class="desc">Department :</span>
+        <div class="status-hld">
+            <span class="status approved light">Technology</span>
+            <span class="status started light">Human Resources</span>
+            <span class="status started light">Marketing</span>
+            <span class="status started light">Operations</span>
+        </div>
+        
+    </div> -->
+
+    <div class="row-section mt-lg-4">
+
+        <div class="appraisal-container card-yxl">
+    
+            <div class="col-card card-ylg d-flex justify-content-between align-items-start">
+
+                <div class="row-card card-xxl matrix-container d-flex flex-column justify-content-between">
+                    <div class="card-cont">
+                        <div class="inner-col card-xxl" style="overflow-x: hidden;">
+                            <div class="request-wrap">
+                                <div *ngFor="let employee of periodInView[0]?.appraisalData; let i = index" class="request-hld">
+                                    <div class="view"><i class="bi bi-arrow-up-right-circle-fill"></i></div>
+                                    <div (click)="viewAppraisalInfo(employee._id)" class="cont">
+                                        <div class="det d-flex align-items-center gap-2">
+                                            <div class="image rd bkg-standard" style="background-image: url('{{employee.profilePic}}');"></div>
+                                            <div class="info">
+                                                <div class="title">{{employee.fullName}}</div>
+                                                <div class="date">
+                                                    <!-- <span><i class="bi bi-calendar2-week"></i></span> -->
+                                                    <span>{{employee.designation}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="det">
+                                            <div class="count">
+                                                <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(i+2)"><i class="bi bi-star-fill"></i></span>
+                                            </div>
+                                            <div class="dept">{{employee.department}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-cont mb-lg-4">
+                        <div class="appraisal-hdr">
+                            <div class="detail">
+                                <span>Appraisal Matrix</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-cont d-flex justify-content-end">
+                        <div class="arrow vertical">
+                            <div class="line"><span>Potential</span></div>
+                            <div class="point"></div>
+                        </div>
+                        <div class="arrow horizontal">
+                            <div class="line"><span>Performance</span></div>
+                            <div class="point"></div>
+                        </div>
+                        <div class="rating horizontal">
+                            <div class="name">Low</div>
+                            <div class="name">Moderate</div>
+                            <div class="name">High</div>
+                        </div>
+                        <div class="rating vertical">
+                            <div class="name">Low</div>
+                            <div class="name">Moderate</div>
+                            <div class="name">High</div>
+                        </div>
+                        <div class="matrix-wrap">
+                            <div *ngFor="let item of matrixItems" class="cont matrix-hld" style="height: 15.2vh;">
+                                <div class="stacked-items lg">
+                                    <div class="stack fill">
+                                        <!-- <span (click)="sideModalOpened = !sideModalOpened" *ngFor="let staff of item.staff" style="background-image: url('../../../../../assets/images/illustrations/{{staff.image}}');"></span> -->
+                                        <span (click)="viewAppraisalInfo('3443889')" *ngFor="let staff of item.staff" style="background-image: url('../../../../../assets/images/illustrations/{{staff.image}}');"></span>
+                                        <!-- <span style="background-image: url('../../../../../assets/images/illustrations/staff1.jpg');"></span>
+                                        <span style="background-image: url('../../../../../assets/images/illustrations/staff3.jpg');"></span>
+                                        <span style="background-image: url('../../../../../assets/images/illustrations/staff2.jpg');"></span>
+                                        <span style="background-image: url('../../../../../assets/images/illustrations/profile-img.jpg');"></span>
+                                        <span style="background-image: url('../../../../../assets/images/illustrations/staff1.jpg');"></span>
+                                        <span style="background-image: url('../../../../../assets/images/illustrations/staff3.jpg');"></span> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-card card-xmmd card-ylg h-auto ms-lg-4">
+                    <div class="cont">
+                        <div class="card-title clr">Key Performance Indicators</div>
+                        <div (click)="addKpiGroup()" class="cta quick primary-bkg xs">Add Group</div>
+
+                        <mat-accordion>
+                            <mat-expansion-panel hideToggle *ngFor="let item of kpiGroups['data']; let i = index" class="mat-elevation-z0">
+                                <mat-expansion-panel-header style="height: 60px;">
+                                    <mat-panel-title>
+                                        <div class="content w-100 d-flex justify-content-between align-items-center">
+                                            <div class="det">
+                                                <div class="major bd text-capitalize">{{item.groupName}} KPIs</div>
+                                                <div class="minor">{{item.groupKpis.length}} KPIs <div (click)="addKpi(item._id)" class="cta primary-light-bkg xxs ms-lg-1">Create KPI</div></div>
+                                            </div>
+                                            <div class="actions">
+                                                <i *ngIf="!(item.groupName == 'General' || item.groupName == 'specific')" (click)="updateKpiGroup(item)" class="bi bi-pen-fill"></i>
+                                                <i *ngIf="!(item.groupName == 'General' || item.groupName == 'specific')" (click)="deleteKpiGroup(item)" class="bi bi-trash3-fill"></i>
+                                            </div>
+                                        </div>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div *ngIf="item.groupKpis.length != 0" class="list-section">
+                                    <div class="list-scroll">
+                                        <div *ngFor="let entity of item.groupKpis; let j = index" class="list-hld">
+                                            <div class="name">{{entity.kpiName}}</div>
+                                            <div class="actions">
+                                                <i (click)="updateKpi(entity)" class="bi bi-pen-fill"></i>
+                                                <i (click)="deleteKpi(entity)" class="bi bi-trash3-fill"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+
+                        </mat-accordion>
+
+
+
+                        <!-- <div class="listed-items mt-lg-3">
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major bd">General KPIs</div>
+                                        <div class="minor">8 KPIs <div (click)="addKpi()" class="cta primary-bkg xxs ms-lg-1">Create KPI</div></div>
+                                    </div>
+                                    <div class="det right">
+                                        <div class="major"><i class="bi bi-chevron-down"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major bd">Marketing Managers</div>
+                                        <div class="minor">8 KPIs</div>
+                                    </div>
+                                    <div class="det right">
+                                        <div class="major"><i class="bi bi-chevron-down"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major bd">Finance Analysis</div>
+                                        <div class="minor">5 KPIs</div>
+                                    </div>
+                                    <div class="det right">
+                                        <div class="major"><i class="bi bi-chevron-down"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major bd">Specific KPIs</div>
+                                        <div class="minor">9 KPIs</div>
+                                    </div>
+                                    <div class="det right">
+                                        <div class="major"><i class="bi bi-chevron-down"></i></div>
+                                    </div>
+                                </div>
+                            </div>    
+                        </div> -->
+                    </div>
+
+                    <div class="cont mt-lg-4">
+                        <div class="card-title clr mb-lg-1">Rating Scale</div>
+                        <div (click)="addRating()" class="cta quick primary-bkg xs">Add Rating</div>
+                        <mat-accordion>
+                            <mat-expansion-panel hideToggle *ngFor="let item of ratingAccordionItems['data']; let i = index" class="mat-elevation-z0">
+                                <mat-expansion-panel-header style="max-height: 40px;">
+                                    <mat-panel-title>
+                                        <div class="info-section w-100 pt-1 d-flex justify-content-between">
+                                            <div class="name">
+                                                <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(convertToNum(item.value))"><i class="bi bi-star-fill"></i></span>
+                                                <span class="ps-lg-1">{{item.ratingName}}</span>
+                                            </div>
+                                            <div class="actions">
+                                                <i (click)="updateKpiRating(item)" class="bi bi-pen-fill"></i>
+                                                <i (click)="deleteKpiRating(item)" class="bi bi-trash3-fill"></i>
+                                            </div>
+                                        </div>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="info-body">{{item.description}}</div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div [ngClass]="{opened: sideModalOpened}" class="sidenav-container"> 
+    <div (click)="sideModalOpened = !sideModalOpened" class="sidenav-bkg"></div> 
+    <div [ngClass]="{opened: sideModalOpened}" class="sidenav-content">
+        <!-- <app-appraisal-form></app-appraisal-form> -->
+    </div>
+</div>
